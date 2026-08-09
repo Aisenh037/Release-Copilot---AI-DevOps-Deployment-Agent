@@ -50,9 +50,9 @@
 
 ```bash
 cd /d/SwytchCode
-npx create-next-app@latest _scaffold --typescript --tailwind --eslint --app --src-dir --use-npm --yes
-cp -r _scaffold/. .
-rm -rf _scaffold README.md   # README rewritten in Task 6
+npx create-next-app@latest release-copilot --typescript --tailwind --eslint --app --src-dir --use-npm --yes
+cp -r release-copilot/. .
+rm -rf release-copilot README.md   # README rewritten in Task 6; temp dir name sets package.json name "release-copilot"
 ```
 
 - [ ] **Step 2: Verify `.env*` is gitignored**: `grep -n "env" .gitignore` → expect `.env*` line. If missing, add `.env*.local` and `.env.local`.
