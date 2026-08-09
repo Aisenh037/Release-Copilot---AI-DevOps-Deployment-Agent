@@ -7,6 +7,9 @@
     "GitHub.github": {
       "version": "1.1.4"
     },
+    "Jira.jira": {
+      "version": "v1"
+    },
     "Netlify.netlify": {
       "version": "v1"
     },
@@ -2259,6 +2262,319 @@
         "status": 200
       },
       "summary": "List pull requests",
+      "type": "method"
+    },
+    "jira.api.issue.create": {
+      "desc": "Creates an issue or, where the option to create subtasks is enabled in Jira, a subtask. A transition may be applied, to move the issue or subtask to a workflow step other than the default start step, and issue properties set.\n\nThe content of the issue or subtask is defined using `update` and `fields`. The fields that can be set in the issue or subtask are determined using the [ Get create issue metadata](#api-rest-api-3-issue-createmeta-get). These are the same fields that appear on the issue's create screen. Note that the `description`, `environment`, and any `textarea` type custom fields (multi-line text fields) take Atlassian Document Format content. Single line custom fields (`textfield`) accept a string and don't handle Atlassian Document Format content.\n\nCreating a subtask differs from creating an issue as follows:\n\n *  `issueType` must be set to a subtask issue type (use [ Get create issue metadata](#api-rest-api-3-issue-createmeta-get) to find subtask issue types).\n *  `parent` must contain the ID or key of the parent issue.\n\nIn a next-gen project any issue may be made a child providing that the parent and child are members of the same project.\n\n**[Permissions](#permissions) required:** *Browse projects* and *Create issues* [project permissions](https://confluence.atlassian.com/x/yodKLg) for the project in which the issue or subtask is created.",
+      "inputs": [
+        {
+          "updateHistory": {
+            "DEFAULT": false,
+            "LOCATION": "query",
+            "REQUIRED": false,
+            "TYPE": "BOOL"
+          }
+        },
+        {
+          "body": {
+            "LOCATION": "body",
+            "TYPE": "OBJECT",
+            "schema": {
+              "properties": {
+                "fields": {
+                  "required": false,
+                  "type": "map[STRING]ANY"
+                },
+                "historyMetadata": {
+                  "required": false,
+                  "type": "any"
+                },
+                "properties": {
+                  "items": {
+                    "properties": {
+                      "key": {
+                        "required": false,
+                        "type": "string"
+                      },
+                      "value": {
+                        "required": false,
+                        "type": "any"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "required": false,
+                  "type": "array"
+                },
+                "transition": {
+                  "required": false,
+                  "type": "any"
+                },
+                "update": {
+                  "required": false,
+                  "type": "map[STRING]ANY"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "integration": "Jira.jira@v1",
+      "method_hash": "5b2193a87f305089d8ef18d3ecb50544e25bb148bc4980374a27ff5f88a8a192",
+      "output": {
+        "schema": {
+          "properties": {
+            "id": {
+              "required": false,
+              "type": "string"
+            },
+            "key": {
+              "required": false,
+              "type": "string"
+            },
+            "self": {
+              "required": false,
+              "type": "string"
+            },
+            "transition": {
+              "required": false,
+              "type": "any"
+            },
+            "watchers": {
+              "required": false,
+              "type": "any"
+            }
+          }
+        },
+        "status": 201
+      },
+      "summary": "Create issue",
+      "type": "method"
+    },
+    "jira.api.jql.create": {
+      "desc": "Searches for issues using [JQL](https://confluence.atlassian.com/x/egORLQ). Recent updates might not be immediately visible in the returned search results. If you need [read-after-write](https://developer.atlassian.com/cloud/jira/platform/search-and-reconcile/) consistency, you can utilize the `reconcileIssues` parameter to ensure stronger consistency assurances. This operation can be accessed anonymously.\n\n**[Permissions](#permissions) required:** Issues are included in the response where the user has:\n\n *  *Browse projects* [project permission](https://confluence.atlassian.com/x/yodKLg) for the project containing the issue.\n *  If [issue-level security](https://confluence.atlassian.com/x/J4lKLg) is configured, issue-level security permission to view the issue.",
+      "inputs": [
+        {
+          "body": {
+            "LOCATION": "body",
+            "TYPE": "OBJECT",
+            "schema": {
+              "properties": {
+                "expand": {
+                  "required": false,
+                  "type": "string"
+                },
+                "fields": {
+                  "required": false,
+                  "type": "[]STRING"
+                },
+                "fieldsByKeys": {
+                  "required": false,
+                  "type": "boolean"
+                },
+                "jql": {
+                  "required": false,
+                  "type": "string"
+                },
+                "maxResults": {
+                  "required": false,
+                  "type": "integer"
+                },
+                "nextPageToken": {
+                  "required": false,
+                  "type": "string"
+                },
+                "properties": {
+                  "required": false,
+                  "type": "[]STRING"
+                },
+                "reconcileIssues": {
+                  "required": false,
+                  "type": "[]INT"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "integration": "Jira.jira@v1",
+      "method_hash": "9c7b3d2c9a37e4eff62ad6625147dcbd7e0c0dded26dd27c315a2a8f7d27711f",
+      "output": {
+        "schema": {
+          "properties": {
+            "isLast": {
+              "required": false,
+              "type": "boolean"
+            },
+            "issues": {
+              "items": {
+                "properties": {
+                  "changelog": {
+                    "required": false,
+                    "type": "any"
+                  },
+                  "editmeta": {
+                    "required": false,
+                    "type": "any"
+                  },
+                  "expand": {
+                    "required": false,
+                    "type": "string"
+                  },
+                  "fields": {
+                    "required": false,
+                    "type": "map[STRING]ANY"
+                  },
+                  "fieldsToInclude": {
+                    "properties": {
+                      "actuallyIncluded": {
+                        "required": false,
+                        "type": "[]STRING"
+                      },
+                      "excluded": {
+                        "required": false,
+                        "type": "[]STRING"
+                      },
+                      "included": {
+                        "required": false,
+                        "type": "[]STRING"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "id": {
+                    "required": false,
+                    "type": "string"
+                  },
+                  "key": {
+                    "required": false,
+                    "type": "string"
+                  },
+                  "names": {
+                    "required": false,
+                    "type": "map[STRING]STRING"
+                  },
+                  "operations": {
+                    "required": false,
+                    "type": "any"
+                  },
+                  "properties": {
+                    "required": false,
+                    "type": "map[STRING]ANY"
+                  },
+                  "renderedFields": {
+                    "required": false,
+                    "type": "map[STRING]ANY"
+                  },
+                  "schema": {
+                    "required": false,
+                    "type": "map[STRING]ANY"
+                  },
+                  "self": {
+                    "required": false,
+                    "type": "string"
+                  },
+                  "transitions": {
+                    "items": {
+                      "properties": {
+                        "expand": {
+                          "required": false,
+                          "type": "string"
+                        },
+                        "fields": {
+                          "required": false,
+                          "type": "map[STRING]ANY"
+                        },
+                        "hasScreen": {
+                          "required": false,
+                          "type": "boolean"
+                        },
+                        "id": {
+                          "required": false,
+                          "type": "string"
+                        },
+                        "isAvailable": {
+                          "required": false,
+                          "type": "boolean"
+                        },
+                        "isConditional": {
+                          "required": false,
+                          "type": "boolean"
+                        },
+                        "isGlobal": {
+                          "required": false,
+                          "type": "boolean"
+                        },
+                        "isInitial": {
+                          "required": false,
+                          "type": "boolean"
+                        },
+                        "looped": {
+                          "required": false,
+                          "type": "boolean"
+                        },
+                        "name": {
+                          "required": false,
+                          "type": "string"
+                        },
+                        "to": {
+                          "required": false,
+                          "type": "any"
+                        }
+                      },
+                      "type": "object"
+                    },
+                    "required": false,
+                    "type": "array"
+                  },
+                  "versionedRepresentations": {
+                    "required": false,
+                    "type": "map[STRING]ANY"
+                  }
+                },
+                "type": "object"
+              },
+              "required": false,
+              "type": "array"
+            },
+            "names": {
+              "required": false,
+              "type": "map[STRING]STRING"
+            },
+            "nextPageToken": {
+              "required": false,
+              "type": "string"
+            },
+            "schema": {
+              "required": false,
+              "type": "map[STRING]ANY"
+            },
+            "warnings": {
+              "items": {
+                "properties": {
+                  "details": {
+                    "required": false,
+                    "type": "any"
+                  },
+                  "message": {
+                    "required": false,
+                    "type": "string"
+                  },
+                  "type": {
+                    "required": false,
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              },
+              "required": false,
+              "type": "array"
+            }
+          }
+        },
+        "status": 200
+      },
+      "summary": "Search for issues using JQL enhanced search (POST)",
       "type": "method"
     },
     "netlify.build.create": {
