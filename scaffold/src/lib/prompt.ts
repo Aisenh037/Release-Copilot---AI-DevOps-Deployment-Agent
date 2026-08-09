@@ -14,7 +14,9 @@ below has dots replaced with underscores, since that's how it's exposed to you):
 - commits -> github_commit_get_1 (args: owner, repo - split ${process.env.RELEASE_REPO} on "/")
 - pull requests -> github_pull_get
 - diff / what changed -> github_compare_get (basehead like "main~5...main")
-- create issue -> atlassian_rest_issue_create (body {fields:{project:{key:"${process.env.JIRA_PROJECT_KEY}"}, summary, description, issuetype:{name:"Task"}}})
+- create issue -> atlassian_rest_issue_create. body MUST be a real JSON object, never a JSON-encoded string. Exact shape:
+  {body:{fields:{project:{key:"${process.env.JIRA_PROJECT_KEY}"}, summary:"...", issuetype:{name:"Task"}, description:{type:"doc",version:1,content:[{type:"paragraph",content:[{type:"text",text:"..."}]}]}}}}
+  (Jira API v3 rejects plain-string descriptions - description must be that Atlassian Document Format object.)
 - search issues -> atlassian_rest_jql_create (body {jql:"project = ${process.env.JIRA_PROJECT_KEY} ORDER BY created DESC", maxResults})
 - trigger deploy -> netlify_build_create (site_id, branch)
 - deploy status -> netlify_deploy_get_1 (site_id, deploy_id)
