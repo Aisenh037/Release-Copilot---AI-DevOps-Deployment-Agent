@@ -5,7 +5,9 @@ import type { ChatMsg } from "@/lib/useAgentStream";
 export function Chat({ messages, busy, send }: { messages: ChatMsg[]; busy: boolean; send: (t: string) => void }) {
   const [input, setInput] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
-  useEffect(() => endRef.current?.scrollIntoView({ behavior: "smooth" }), [messages]);
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <section className="flex flex-col rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
