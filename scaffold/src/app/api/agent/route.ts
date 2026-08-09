@@ -3,7 +3,7 @@ import { createGoogleGenerativeAI } from "@ai-sdk/google";
 // Groq commented out for now (free-tier quotas exhausted) - swap the provider lines
 // below and the models list to switch back.
 // import { createGroq } from "@ai-sdk/groq";
-import { getTools, resolveCanonicalId } from "@/lib/swytchcode";
+import { getTools, resolveCanonicalId } from "@/lib/platform";
 import { systemPrompt } from "@/lib/prompt";
 import { partToEvent } from "@/lib/events";
 

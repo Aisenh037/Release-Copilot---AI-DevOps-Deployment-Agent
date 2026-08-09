@@ -6,9 +6,7 @@ import type {
   DryRunRequest,
   ExecutionContext,
   ExecutionPolicy,
-  OperationDefinition,
   OperationResult,
-  ProviderDefinition,
 } from "./types";
 import { pruneResult, unwrapJsonStrings } from "./prune";
 import { resolveAuth } from "./auth";

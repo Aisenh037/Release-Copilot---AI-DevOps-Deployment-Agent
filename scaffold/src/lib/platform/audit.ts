@@ -1,6 +1,6 @@
 // Server-only. Audit must never break execution — every sink failure is swallowed.
 import { appendFileSync } from "node:fs";
-import type { AuditEvent, AuditSink } from "./types";
+import type { AuditSink } from "./types";
 
 export const defaultAuditSink: AuditSink = (event) => {
   const line = JSON.stringify(event);

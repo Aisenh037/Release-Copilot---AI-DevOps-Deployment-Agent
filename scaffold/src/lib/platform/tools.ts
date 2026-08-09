@@ -2,15 +2,10 @@
 // delegated to the kernel. The per-request ctx parameter is the second half of the
 // Phase C seam — the workspace-scoped route will build tools with the session's
 // ConnectionRef instead of using the cached env-auth set.
-import { tool, jsonSchema } from "ai";
+import { tool, jsonSchema, type ToolSet } from "ai";
 import type { ExecutionContext } from "./types";
 import { operations, toolNameFor, resolveCanonicalId } from "./registry";
 import { executeOperation } from "./kernel";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- the ai SDK's own
-// ToolSet type is a loosely-typed Record<string, Tool<any, any>>; with jsonSchema()
-// input schemas the arg type is unknown at compile time by design.
-type ToolSet = Record<string, any>;
 
 export function buildTools(ctx?: ExecutionContext): ToolSet {
   const tools: ToolSet = {};
