@@ -7,7 +7,7 @@ export type AgentEvent =
 
 /**
  * Maps a streamText().fullStream part to an AgentEvent. `resolveTool` is applied to
- * the tool name (default: identity) - route.ts passes swytchcode.ts's
+ * the tool name (default: identity) - route.ts passes the platform registry's
  * resolveCanonicalId so the feed shows canonical IDs instead of sanitized names.
  *
  * Field-name defensiveness (part.text ?? part.textDelta, part.input ?? part.args,
