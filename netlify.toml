@@ -8,6 +8,10 @@
   # scanning because values like "main" appear naturally in bundled output.
   # Real API keys are NOT listed here and remain guarded by the scanner.
   SECRETS_SCAN_OMIT_KEYS = "RELEASE_REPO,RELEASE_BRANCH,JIRA_PROJECT_KEY,NETLIFY_SITE_ID,NOTION_PARENT_PAGE_ID,JIRA_SITE,JIRA_EMAIL,GROQ_MODEL,GROQ_FALLBACK_MODEL,NEXT_PUBLIC_JIRA_SITE"
+  # Turbopack snapshots the build environment into its on-disk cache (.sst files)
+  # for invalidation. The cache is never deployed/served, so exclude it from
+  # scanning; deployed chunks and function bundles are still scanned.
+  SECRETS_SCAN_OMIT_PATHS = ".next/cache/**,.netlify/.next/cache/**"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
