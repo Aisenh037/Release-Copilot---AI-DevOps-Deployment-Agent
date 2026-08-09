@@ -53,15 +53,22 @@ Single **Next.js (App Router, TypeScript)** application, three parts:
   over **Server-Sent Events**; the UI renders chat and feed from the same stream.
 - State is in-memory per session. No database.
 
-### 3. Swytchcode client (the only door to the outside world)
+### 3. Swytchcode integration (the only door to the outside world)
 
-- One wrapper module: `executeSwytchcode(service, method, params)` →
-  `{ ok, data | error }`.
-- **Primary integration path: Swytchcode JS SDK** inside the Next.js API route.
-  **Fallback path:** Swytchcode MCP server / CLI execution if the SDK blocks
-  during the first-hour spike. The wrapper's signature is identical either way,
-  so nothing downstream changes.
-- Every call is logged to the activity feed with its Swytchcode round-trip —
+Follows the repo's Swytchcode Agent Contract (`CLAUDE.md`) Golden Path exactly:
+`swytchcode search` → `swytchcode get <integration>` → `swytchcode add method
+<canonical_id>` → `swytchcode info <canonical_id>` for I/O contracts — before
+any code is generated.
+
+- **Primary path:** the `@swytchcode/runtime` agentic surface —
+  `new Swytchcode(provider)` + `await swx.tools.get(...)`. Each returned tool
+  carries its input schema and an `execute` callback that runs `swytchcode exec`
+  internally; we never hand-write execution logic.
+- **Provider adapter:** `@swytchcode/runtime/providers/vercel` feeding the
+  Vercel AI SDK's tool loop, with Groq as the AI SDK model provider.
+- **Fallback path:** OpenAI-style manual loop with the OpenAI-compat SDK, or
+  CLI subprocess (`swytchcode exec`), if the adapter misbehaves in the spike.
+- Every tool invocation/result from the loop is logged to the activity feed —
   this doubles as evidence for the "deep Swytchcode use" criterion.
 
 ## Tool registry (8 tools, all via Swytchcode)
@@ -77,8 +84,11 @@ Single **Next.js (App Router, TypeScript)** application, three parts:
 | `netlify_get_deploy_status` | Netlify | Poll deploy state until ready |
 | `notion_create_page` | Notion | Release report page (summary, changes, risks, tickets, deploy link) |
 
-Tool JSON schemas live in one typed registry module; each entry declares name,
-description, parameter schema, and the Swytchcode (service, method) it maps to.
+The names above are descriptive; the actual **canonical IDs** come from
+`swytchcode search` / `get` / `info` during the integration spike and are
+enabled in `tooling.json` via `swytchcode add method` (Golden Path — no
+invented IDs, no hand-written schemas). Enable only the ~8 methods the agent
+needs across GitHub, Jira, Netlify, and Notion.
 
 ## Agent behavior (system prompt outline)
 
