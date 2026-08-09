@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node --import tsx --test \"src/lib/platform/**/*.test.ts\"",
+    "demo": "node --env-file=.env --import tsx demo.mts"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.39",
