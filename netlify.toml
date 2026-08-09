@@ -3,5 +3,11 @@
   command = "npm run build"
   publish = ".next"
 
+[build.environment]
+  # Non-sensitive config values (branch names, IDs, URLs) — excluded from secrets
+  # scanning because values like "main" appear naturally in bundled output.
+  # Real API keys are NOT listed here and remain guarded by the scanner.
+  SECRETS_SCAN_OMIT_KEYS = "RELEASE_REPO,RELEASE_BRANCH,JIRA_PROJECT_KEY,NETLIFY_SITE_ID,NOTION_PARENT_PAGE_ID,JIRA_SITE,JIRA_EMAIL,GROQ_MODEL,GROQ_FALLBACK_MODEL,NEXT_PUBLIC_JIRA_SITE"
+
 [[plugins]]
   package = "@netlify/plugin-nextjs"
