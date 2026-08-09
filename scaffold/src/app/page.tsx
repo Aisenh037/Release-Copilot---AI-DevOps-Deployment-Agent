@@ -10,8 +10,8 @@ export default function Home() {
     <main className="mx-auto max-w-6xl p-4">
       <header className="mb-4 flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold">Release Copilot</h1>
-          <p className="text-sm text-zinc-500">AI DevOps agent — every call runs through Swytchcode</p>
+          <h1 className="text-xl font-bold">Samvaya — Release Copilot</h1>
+          <p className="text-sm text-zinc-500">AI DevOps agent — GitHub, Jira, Netlify, Notion</p>
         </div>
         <button
           onClick={() => send(SIMULATED_PUSH)} disabled={busy}

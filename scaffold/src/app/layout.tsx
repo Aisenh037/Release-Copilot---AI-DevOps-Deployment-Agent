@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Release Copilot",
-  description: "AI DevOps agent powered by Swytchcode",
+  title: "Samvaya — Release Copilot",
+  description: "AI DevOps agent by Samvaya",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
